@@ -22,6 +22,7 @@ function App() {
   const [motivation] = useState(
     MOTIVATIONAL_TEXTS[Math.floor(Math.random() * MOTIVATIONAL_TEXTS.length)]
   )
+  const [theme, setTheme] = useState('light')
 
   // Load tasks from localStorage for today
   useEffect(() => {
@@ -33,6 +34,16 @@ function App() {
   useEffect(() => {
     localStorage.setItem(`tasks-${todayKey}`, JSON.stringify(tasks))
   }, [tasks, todayKey])
+
+  // Save theme to localStorage
+  useEffect(() => {
+    const savedTheme = localStorage.getItem('theme')
+    if (savedTheme) setTheme(savedTheme)
+  }, [])
+
+  useEffect(() => {
+    localStorage.setItem('theme', theme)
+  }, [theme])
 
   function addTask(e) {
     e.preventDefault()
@@ -55,12 +66,19 @@ function App() {
     setTasks(tasks.filter(t => t.id !== id))
   }
 
+  function handleThemeToggle() {
+    setTheme(theme === 'light' ? 'dark' : 'light')
+  }
+
   return (
-    <div className="todo-bg">
+    <div className={`todo-bg${theme === 'dark' ? ' dark-theme' : ''}`}>
       <div className="todo-container">
         <header className="todo-header">
           <h1>{new Date().toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' })}</h1>
           <p className="motivation">{motivation}</p>
+          <button onClick={handleThemeToggle} className="theme-toggle-btn">
+            {theme === 'dark' ? '🌙 Dark' : '☀️ Light'}
+          </button>
         </header>
         <form className="todo-input-card" onSubmit={addTask}>
           <input
