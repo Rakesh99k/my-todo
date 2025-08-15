@@ -1,10 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import './App.css'
-
-function getTodayKey() {
-  const today = new Date()
-  return today.toISOString().slice(0, 10)
-}
+import GojoImg from './assets/gojo.jpg' // import the Gojo image
 
 const MOTIVATIONAL_TEXTS = [
   "Make today amazing!",
@@ -15,27 +11,28 @@ const MOTIVATIONAL_TEXTS = [
 ]
 
 function App() {
-  const todayKey = getTodayKey()
-  const [tasks, setTasks] = useState([])
+  // Use functional initializer for tasks
+  const [tasks, setTasks] = useState(() => {
+    try {
+      const saved = localStorage.getItem('tasks')
+      return saved ? JSON.parse(saved) : []
+    } catch (e) {
+      return []
+    }
+  })
   const [input, setInput] = useState('')
+  const [descInput, setDescInput] = useState('')
   const inputRef = useRef(null)
   const [motivation] = useState(
     MOTIVATIONAL_TEXTS[Math.floor(Math.random() * MOTIVATIONAL_TEXTS.length)]
   )
   const [theme, setTheme] = useState('light')
 
-  // Load tasks from localStorage for today
+  // Save tasks to localStorage whenever tasks change
   useEffect(() => {
-    const saved = localStorage.getItem(`tasks-${todayKey}`)
-    setTasks(saved ? JSON.parse(saved) : [])
-  }, [todayKey])
+    localStorage.setItem('tasks', JSON.stringify(tasks))
+  }, [tasks])
 
-  // Save tasks to localStorage
-  useEffect(() => {
-    localStorage.setItem(`tasks-${todayKey}`, JSON.stringify(tasks))
-  }, [tasks, todayKey])
-
-  // Save theme to localStorage
   useEffect(() => {
     const savedTheme = localStorage.getItem('theme')
     if (savedTheme) setTheme(savedTheme)
@@ -50,9 +47,10 @@ function App() {
     if (!input.trim()) return
     setTasks([
       ...tasks,
-      { id: Date.now(), text: input.trim(), done: false }
+      { id: Date.now(), text: input.trim(), description: descInput.trim(), done: false }
     ])
     setInput('')
+    setDescInput('')
     inputRef.current?.blur()
   }
 
@@ -80,35 +78,63 @@ function App() {
             {theme === 'dark' ? '🌙 Dark' : '☀️ Light'}
           </button>
         </header>
+
         <form className="todo-input-card" onSubmit={addTask}>
-          <input
-            ref={inputRef}
-            type="text"
-            placeholder="Add a new task..."
-            value={input}
-            onChange={e => setInput(e.target.value)}
-            className="todo-input"
-          />
-          <button type="submit" className="add-btn">+</button>
+          <div className="input-box">
+            <label htmlFor="task-input" className="input-label">Task</label>
+            <input
+              id="task-input"
+              ref={inputRef}
+              type="text"
+              placeholder="Add a new task..."
+              value={input}
+              onChange={e => setInput(e.target.value)}
+              className="todo-input"
+            />
+          </div>
+          <div className="input-box">
+            <label htmlFor="desc-input" className="input-label">Description</label>
+            <input
+              id="desc-input"
+              type="text"
+              placeholder="Add description (optional)..."
+              value={descInput}
+              onChange={e => setDescInput(e.target.value)}
+              className="todo-desc-input"
+            />
+          </div>
+          <button type="submit" className="add-btn">
+            <img
+              src={GojoImg}
+              alt="Add Task"
+              className="gojo-btn-img"
+            />
+          </button>
         </form>
+
         <ul className="todo-list">
           {tasks.length === 0 && (
             <li className="empty-list">No tasks yet. Enjoy your day!</li>
           )}
           {tasks.map(task => (
             <li key={task.id} className={`todo-card${task.done ? ' done' : ''}`}>
-              <label className="checkbox-container">
-                <input
-                  type="checkbox"
-                  checked={task.done}
-                  onChange={() => toggleTask(task.id)}
-                />
-                <span className="checkmark"></span>
-              </label>
-              <span className="task-text">{task.text}</span>
-              <button className="delete-btn" onClick={() => deleteTask(task.id)} title="Delete task">×</button>
-              {task.done && (
-                <span className="done-anim" aria-label="Completed">🎉</span>
+              <div className="todo-card-row">
+                <label className="checkbox-container">
+                  <input
+                    type="checkbox"
+                    checked={task.done}
+                    onChange={() => toggleTask(task.id)}
+                  />
+                  <span className="checkmark"></span>
+                </label>
+                <span className="task-text">{task.text}</span>
+                <button className="delete-btn" onClick={() => deleteTask(task.id)} title="Delete task">×</button>
+                {task.done && (
+                  <span className="done-anim" aria-label="Completed">🎉</span>
+                )}
+              </div>
+              {task.description && (
+                <span className="task-desc">{task.description}</span>
               )}
             </li>
           ))}

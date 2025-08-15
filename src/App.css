@@ -47,6 +47,7 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-direction: column;
 }
 
 .todo-container {
@@ -57,7 +58,10 @@
   padding: 2rem;
   max-width: 400px;
   width: 100%;
-  margin: 2rem;
+  margin: 2rem auto;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
 }
 
 .todo-header {
@@ -79,13 +83,35 @@
   font-style: italic;
 }
 
+/* FIXED ORIENTATION FOR INPUTS */
 .todo-input-card {
   display: flex;
+  flex-wrap: wrap;
   background: rgba(255,255,255,0.4);
   border-radius: 16px;
   box-shadow: 0 2px 8px rgba(31,38,135,0.07);
   margin-bottom: 1.5rem;
   padding: 0.5em;
+  gap: 0.7em;
+  align-items: flex-end;
+}
+
+.input-box {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 150px;
+  background: rgba(255,255,255,0.7);
+  border-radius: 10px;
+  padding: 0.5em 0.7em;
+  margin-bottom: 0;
+}
+
+.input-label {
+  font-size: 0.97em;
+  font-weight: 600;
+  color: #6c63ff;
+  margin-bottom: 0.2em;
+  letter-spacing: 0.5px;
 }
 
 .todo-input {
@@ -95,6 +121,17 @@
   font-size: 1em;
   padding: 0.7em;
   outline: none;
+  color: #222;
+}
+
+.todo-desc-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: 0.95em;
+  padding: 0.7em;
+  outline: none;
+  color: #222;
 }
 
 .add-btn {
@@ -109,9 +146,24 @@
   transition: background 0.2s;
   margin-left: 0.5em;
   box-shadow: 0 2px 8px rgba(31,38,135,0.07);
+  align-self: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 0; /* ensure no extra space */
 }
 .add-btn:hover {
   background: #5548c8;
+}
+
+/* Gojo image style for button */
+.gojo-btn-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
 }
 
 .todo-list {
@@ -128,7 +180,8 @@
 
 .todo-card {
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  align-items: stretch;
   background: rgba(255,255,255,0.7);
   border-radius: 14px;
   box-shadow: 0 2px 8px rgba(31,38,135,0.07);
@@ -136,12 +189,16 @@
   padding: 0.7em 1em;
   position: relative;
   transition: background 0.3s;
+  word-break: break-word;
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
 }
 
-.todo-card.done {
-  background: rgba(198,255,221,0.7);
-  text-decoration: line-through;
-  opacity: 0.7;
+.todo-card-row {
+  display: flex;
+  align-items: center;
+  width: 100%;
 }
 
 .checkbox-container {
@@ -197,8 +254,6 @@
   border: solid #fff;
   border-width: 0 0.2em 0.2em 0;
   transform: rotate(45deg);
-  content: '';
-  position: absolute;
 }
 
 .task-text {
@@ -206,6 +261,16 @@
   font-size: 1.05em;
   color: #333;
   word-break: break-word;
+}
+
+.task-desc {
+  display: block;
+  font-size: 0.95em;
+  color: #888;
+  margin-top: 0.3em;
+  margin-left: 2.5em;
+  word-break: break-word;
+  width: calc(100% - 2.5em);
 }
 
 .delete-btn {
@@ -233,17 +298,27 @@
   100% { transform: scale(1); opacity: 1; }
 }
 
-/* Responsive Design */
+/* MOBILE FIX */
 @media (max-width: 600px) {
+  .todo-bg {
+    padding: 1.5em 0;
+    align-items: flex-start;
+    justify-content: flex-start;
+  }
   .todo-container {
     padding: 1rem;
     max-width: 98vw;
+    margin: 1rem auto;
   }
   .todo-header h1 {
     font-size: 1.3em;
   }
   .todo-input-card {
-    padding: 0.3em;
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .add-btn {
+    align-self: flex-end;
   }
   .todo-card {
     padding: 0.5em 0.7em;
@@ -292,7 +367,6 @@
 
 .dark-theme .todo-card.done {
   background: rgba(255,45,85,0.3);
-  color: #fff;
 }
 
 .dark-theme .checkmark {
