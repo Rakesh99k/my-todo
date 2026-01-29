@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
-import './App.css'
-import GojoImg from './assets/gojo.jpg' // import the Gojo image
+import GojoImg from './assets/gojo.jpg'
+import TaskInput from './components/TaskInput'
+import TaskList from './components/TaskList'
 
 const MOTIVATIONAL_TEXTS = [
   "Make today amazing!",
@@ -26,7 +27,6 @@ const PRIORITIES = {
 }
 
 function App() {
-  // Use functional initializer for tasks
   const [tasks, setTasks] = useState(() => {
     try {
       const saved = localStorage.getItem('tasks')
@@ -64,9 +64,8 @@ function App() {
   const [motivation] = useState(
     MOTIVATIONAL_TEXTS[Math.floor(Math.random() * MOTIVATIONAL_TEXTS.length)]
   )
-  const [theme, setTheme] = useState('light')
+  const [theme, setTheme] = useState('gojo')
 
-  // Save tasks to localStorage whenever tasks change
   useEffect(() => {
     localStorage.setItem('tasks', JSON.stringify(tasks))
   }, [tasks])
@@ -165,19 +164,19 @@ function App() {
   }
 
   function handleThemeToggle() {
-    setTheme(theme === 'light' ? 'dark' : 'light')
+    setTheme(theme === 'gojo' ? 'itachi' : 'gojo')
   }
 
   const filteredTasks = getFilteredTasks()
 
   return (
-    <div className={`todo-bg${theme === 'dark' ? ' dark-theme' : ''}`}>
+    <div className={`todo-bg theme-${theme}`}>
       <div className="todo-container">
         <header className="todo-header">
           <h1>{new Date().toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' })}</h1>
           <p className="motivation">{motivation}</p>
           <button onClick={handleThemeToggle} className="theme-toggle-btn">
-            {theme === 'dark' ? '🌙 Dark' : '☀️ Light'}
+            {theme === 'gojo' ? 'Itachi' : 'Gojo'}
           </button>
         </header>
 
