@@ -1,0 +1,170 @@
+.todo-input-card {
+  display: flex;
+  flex-wrap: wrap;
+  background: rgba(255, 255, 255, 0.38);
+  border-radius: 18px;
+  box-shadow: 0 4px 24px rgba(67, 206, 162, 0.09);
+  margin-bottom: 2rem;
+  padding: 0.8em 1em;
+  gap: 1em;
+  align-items: flex-end;
+  backdrop-filter: blur(8px) saturate(120%);
+  border: 1.5px solid rgba(255, 255, 255, 0.18);
+  transition: box-shadow 0.2s, background 0.2s;
+}
+
+.todo-input-card:hover {
+  box-shadow: 0 8px 32px rgba(67, 206, 162, 0.18);
+  background: rgba(255, 255, 255, 0.48);
+}
+
+.input-box {
+  display: flex;
+  flex-direction: column;
+  flex: 1 1 150px;
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 12px;
+  padding: 0.7em 1em;
+  margin-bottom: 0;
+  box-shadow: 0 2px 8px rgba(31, 38, 135, 0.07);
+  border: 1px solid #eee;
+  transition: box-shadow 0.2s, border 0.2s;
+}
+
+.input-label {
+  font-size: 1em;
+  font-weight: 700;
+  color: #6c63ff;
+  margin-bottom: 0.3em;
+  letter-spacing: 0.5px;
+}
+
+.todo-input,
+.todo-desc-input {
+  flex: 1;
+  border: none;
+  background: transparent;
+  font-size: 1.08em;
+  padding: 0.7em;
+  outline: none;
+  color: #222;
+  border-radius: 8px;
+  transition: box-shadow 0.2s, border 0.2s;
+  box-shadow: 0 1px 4px rgba(31, 38, 135, 0.07);
+}
+
+.todo-input:focus,
+.todo-desc-input:focus {
+  border: 2px solid #43cea2;
+  background: #f7faff;
+  box-shadow: 0 2px 12px rgba(67, 206, 162, 0.13);
+}
+
+.add-btn {
+  background: linear-gradient(90deg, #6c63ff 0%, #43cea2 100%);
+  color: #fff;
+  border: none;
+  border-radius: 50%;
+  width: 2.7em;
+  height: 2.7em;
+  min-width: 2.7em;
+  min-height: 2.7em;
+  max-width: 2.7em;
+  max-height: 2.7em;
+  font-size: 1.5em;
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+  margin-left: 0.7em;
+  box-shadow: 0 2px 8px rgba(67, 206, 162, 0.13);
+  align-self: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 0;
+}
+
+.add-btn:hover {
+  background: linear-gradient(90deg, #ff2d55 0%, #6c63ff 100%);
+  box-shadow: 0 4px 16px rgba(255, 45, 85, 0.18);
+}
+
+.gojo-btn-img {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  object-fit: cover;
+  display: block;
+  box-shadow: 0 2px 8px rgba(31, 38, 135, 0.07);
+}
+
+/* ...mobile styles if needed... */
+@media (max-width: 600px) {
+  .todo-input-card {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.7em;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 1em;
+    padding: 0.7em 0.3em;
+  }
+  .input-box {
+    width: 100%;
+    margin-bottom: 0.4em;
+    padding: 0.6em 0.5em;
+    min-width: 0;
+    box-sizing: border-box;
+  }
+  .add-btn {
+    align-self: center;
+    margin-left: 0;
+    margin-top: 0.2em;
+    width: 2.7em;
+    height: 2.7em;
+    min-width: 2.7em;
+    min-height: 2.7em;
+    max-width: 2.7em;
+    max-height: 2.7em;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+  .gojo-btn-img {
+    width: 100%;
+    height: 100%;
+    border-radius: 50%;
+    object-fit: cover;
+  }
+}
+
+/* Gojo theme for input */
+.theme-gojo .todo-input-card {
+  background: rgba(60,0,40,0.7);
+  border: 1.5px solid #6c63ff;
+}
+.theme-gojo .input-label {
+  color: #6c63ff;
+}
+.theme-gojo .add-btn {
+  background: linear-gradient(90deg, #6c63ff 0%, #23243a 100%);
+}
+.theme-gojo .add-btn:hover {
+  background: linear-gradient(90deg, #43cea2 0%, #6c63ff 100%);
+}
+
+/* Itachi theme for input */
+.theme-itachi .todo-input-card {
+  background: rgba(40,0,0,0.7);
+  border: 1.5px solid #ff2d55;
+}
+.theme-itachi .input-label {
+  color: #ff2d55;
+}
+.theme-itachi .add-btn {
+  background: linear-gradient(90deg, #ff2d55 0%, #23243a 100%);
+}
+.theme-itachi .add-btn:hover {
+  background: linear-gradient(90deg, #ff2d55 0%, #6c63ff 100%);
+}

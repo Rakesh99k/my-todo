@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
-import './App.css'
-import GojoImg from './assets/gojo.jpg' // import the Gojo image
+import GojoImg from './assets/gojo.jpg'
+import TaskInput from './components/TaskInput'
+import TaskList from './components/TaskList'
 
 const MOTIVATIONAL_TEXTS = [
   "Make today amazing!",
@@ -11,7 +12,6 @@ const MOTIVATIONAL_TEXTS = [
 ]
 
 function App() {
-  // Use functional initializer for tasks
   const [tasks, setTasks] = useState(() => {
     try {
       const saved = localStorage.getItem('tasks')
@@ -26,9 +26,8 @@ function App() {
   const [motivation] = useState(
     MOTIVATIONAL_TEXTS[Math.floor(Math.random() * MOTIVATIONAL_TEXTS.length)]
   )
-  const [theme, setTheme] = useState('light')
+  const [theme, setTheme] = useState('gojo')
 
-  // Save tasks to localStorage whenever tasks change
   useEffect(() => {
     localStorage.setItem('tasks', JSON.stringify(tasks))
   }, [tasks])
@@ -65,80 +64,33 @@ function App() {
   }
 
   function handleThemeToggle() {
-    setTheme(theme === 'light' ? 'dark' : 'light')
+    setTheme(theme === 'gojo' ? 'itachi' : 'gojo')
   }
 
   return (
-    <div className={`todo-bg${theme === 'dark' ? ' dark-theme' : ''}`}>
+    <div className={`todo-bg theme-${theme}`}>
       <div className="todo-container">
         <header className="todo-header">
           <h1>{new Date().toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric' })}</h1>
           <p className="motivation">{motivation}</p>
           <button onClick={handleThemeToggle} className="theme-toggle-btn">
-            {theme === 'dark' ? '🌙 Dark' : '☀️ Light'}
+            {theme === 'gojo' ? 'Itachi' : 'Gojo'}
           </button>
         </header>
-
-        <form className="todo-input-card" onSubmit={addTask}>
-          <div className="input-box">
-            <label htmlFor="task-input" className="input-label">Task</label>
-            <input
-              id="task-input"
-              ref={inputRef}
-              type="text"
-              placeholder="Add a new task..."
-              value={input}
-              onChange={e => setInput(e.target.value)}
-              className="todo-input"
-            />
-          </div>
-          <div className="input-box">
-            <label htmlFor="desc-input" className="input-label">Description</label>
-            <input
-              id="desc-input"
-              type="text"
-              placeholder="Add description (optional)..."
-              value={descInput}
-              onChange={e => setDescInput(e.target.value)}
-              className="todo-desc-input"
-            />
-          </div>
-          <button type="submit" className="add-btn">
-            <img
-              src={GojoImg}
-              alt="Add Task"
-              className="gojo-btn-img"
-            />
-          </button>
-        </form>
-
-        <ul className="todo-list">
-          {tasks.length === 0 && (
-            <li className="empty-list">No tasks yet. Enjoy your day!</li>
-          )}
-          {tasks.map(task => (
-            <li key={task.id} className={`todo-card${task.done ? ' done' : ''}`}>
-              <div className="todo-card-row">
-                <label className="checkbox-container">
-                  <input
-                    type="checkbox"
-                    checked={task.done}
-                    onChange={() => toggleTask(task.id)}
-                  />
-                  <span className="checkmark"></span>
-                </label>
-                <span className="task-text">{task.text}</span>
-                <button className="delete-btn" onClick={() => deleteTask(task.id)} title="Delete task">×</button>
-                {task.done && (
-                  <span className="done-anim" aria-label="Completed">🎉</span>
-                )}
-              </div>
-              {task.description && (
-                <span className="task-desc">{task.description}</span>
-              )}
-            </li>
-          ))}
-        </ul>
+        <TaskInput
+          input={input}
+          setInput={setInput}
+          descInput={descInput}
+          setDescInput={setDescInput}
+          addTask={addTask}
+          inputRef={inputRef}
+          GojoImg={GojoImg}
+        />
+        <TaskList
+          tasks={tasks}
+          toggleTask={toggleTask}
+          deleteTask={deleteTask}
+        />
       </div>
     </div>
   )

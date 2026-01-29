@@ -1,0 +1,185 @@
+/* ...copy styles for .todo-card, .todo-card-row, .checkbox-container, .checkmark, .task-text, .task-desc, .delete-btn, .done-anim from App.css... */
+.todo-card {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  background: rgba(255,255,255,0.8);
+  border-radius: 16px;
+  box-shadow: 0 2px 12px rgba(67,206,162,0.09);
+  margin-bottom: 1em;
+  padding: 1em 1.2em;
+  position: relative;
+  transition: background 0.3s, box-shadow 0.3s, transform 0.18s;
+  word-break: break-word;
+  min-width: 0;
+  width: 100%;
+  box-sizing: border-box;
+  border: 1px solid #eee;
+}
+
+.todo-card:hover {
+  background: rgba(255,255,255,0.95);
+  box-shadow: 0 8px 32px rgba(67,206,162,0.18);
+  transform: scale(1.02) translateY(-2px);
+}
+
+.todo-card-row {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+.checkbox-container {
+  position: relative;
+  margin-right: 1em;
+  display: flex;
+  align-items: center;
+}
+.checkbox-container input[type="checkbox"] {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.checkmark {
+  width: 1.3em;
+  height: 1.3em;
+  background: #eee;
+  border-radius: 50%;
+  display: inline-block;
+  position: relative;
+  transition: background 0.2s;
+  box-shadow: 0 1px 4px rgba(31,38,135,0.07);
+}
+.checkbox-container input:checked + .checkmark {
+  background: #6c63ff;
+  animation: checkmark-bounce 0.3s;
+}
+@keyframes checkmark-bounce {
+  0% { transform: scale(1); }
+  60% { transform: scale(1.2); }
+  100% { transform: scale(1); }
+}
+.checkmark:after {
+  content: '';
+  position: absolute;
+  display: none;
+}
+.checkbox-container input:checked + .checkmark:after {
+  display: block;
+}
+.checkbox-container .checkmark:after {
+  left: 0.42em;
+  top: 0.18em;
+  width: 0.3em;
+  height: 0.6em;
+  border: solid #fff;
+  border-width: 0 0.2em 0.2em 0;
+  transform: rotate(45deg);
+}
+.task-text {
+  flex: 1;
+  font-size: 1.08em;
+  color: #333;
+  word-break: break-word;
+  font-weight: 600;
+  letter-spacing: 0.2px;
+  transition: color 0.2s;
+}
+.dark-theme .task-text {
+  color: #cfcfcf !important;
+}
+.task-desc {
+  display: block;
+  font-size: 0.98em;
+  color: #888;
+  margin-top: 0.3em;
+  margin-left: 2.5em;
+  word-break: break-word;
+  width: calc(100% - 2.5em);
+  font-style: italic;
+  letter-spacing: 0.1px;
+  transition: color 0.2s;
+}
+.dark-theme .task-desc {
+  color: #ffe082 !important;
+}
+.delete-btn {
+  background: transparent;
+  border: none;
+  color: #ff6b6b;
+  font-size: 1.3em;
+  cursor: pointer;
+  margin-left: 0.5em;
+  transition: color 0.2s, transform 0.2s;
+}
+.delete-btn:hover {
+  color: #c0392b;
+  transform: scale(1.2);
+}
+.done-anim {
+  margin-left: 0.5em;
+  font-size: 1.2em;
+  animation: pop 0.4s;
+}
+@keyframes pop {
+  0% { transform: scale(0.5); opacity: 0; }
+  70% { transform: scale(1.2); opacity: 1; }
+  100% { transform: scale(1); opacity: 1; }
+}
+/* ...mobile styles if needed... */
+@media (max-width: 600px) {
+  .todo-card {
+    padding: 0.7em 0.3em;
+    font-size: 0.98em;
+    min-width: 0;
+    width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 0.7em;
+  }
+  .todo-card-row {
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 0.4em;
+    width: 100%;
+    min-width: 0;
+  }
+  .task-text {
+    flex: 1 1 100%;
+    min-width: 0;
+    word-break: break-word;
+    font-size: 1em;
+  }
+  .task-desc {
+    margin-left: 0;
+    width: 100%;
+    font-size: 0.93em;
+    word-break: break-word;
+    margin-top: 0.2em;
+  }
+  .delete-btn {
+    margin-left: 0.5em;
+    margin-top: 0.2em;
+  }
+}
+.theme-gojo .todo-card {
+  background: rgba(60,0,40,0.8);
+  border: 1px solid #6c63ff;
+  color: #fff;
+}
+.theme-gojo .task-text {
+  color: #cfcfcf !important;
+}
+.theme-gojo .task-desc {
+  color: #ffe082 !important;
+}
+
+.theme-itachi .todo-card {
+  background: rgba(40,0,0,0.85);
+  border: 1px solid #ff2d55;
+  color: #fff;
+}
+.theme-itachi .task-text {
+  color: #ffeaea !important;
+}
+.theme-itachi .task-desc {
+  color: #ffe082 !important;
+}
